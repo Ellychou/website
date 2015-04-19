@@ -1,0 +1,40 @@
+<fieldset class="solid">
+	<legend>创建project</legend>
+	<input type="hidden" name="project.id" value="${(project.id)!}" />
+	<div>
+		<label>创建者姓名</label>
+		<input type="text" name="project.creator_name" value="${(project.creator_name)!}" />${creator_nameMsg!}
+	</div>
+	<div>
+		<label>邮箱</label>
+		<input type="text" name="project.email" value="${(project.email)!}" />${emailMsg!}
+	</div>
+	<div>
+		<label>电话</label>
+		<input type="text" name="project.phone" value="${(project.phone)!}" />${phoneMsg!}
+	</div>
+	<div>
+		<label>城市</label>
+		<input type="text" name="project.city" value="${(project.city)!}" />${cityMsg!}
+	</div>
+	<div>
+		<label>省份</label>
+		<input type="text" name="project.state" value="${(project.state)!}" />${stateMsg!}
+	</div>
+	<div>
+		<label>国家</label>
+		<input type="text" name="project.country" value="${(project.country)!}" />${countryMsg!}
+	</div>
+	<div>
+		<label>标题</label>
+		<input type="text" name="project.title" value="${(project.title)!}" />${titleMsg!}
+	</div>
+	<div>
+		<label>计划书</label>
+		<input type="file" name="project.project"  accept="application/pdf" value="${(project.project)!}" />${projectMsg!}
+	</div>
+	<div>
+		<label>&nbsp;</label>
+		<input value="提交" type="submit">
+	</div>
+</fieldset>

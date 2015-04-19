@@ -1,0 +1,5 @@
+jdbcUrl = jdbc:mysql://127.0.0.1:3306/boston_angel_club
+user = root
+password = zhoushanshan321
+devMode = true
+saveDirectory = C:/Users/files/

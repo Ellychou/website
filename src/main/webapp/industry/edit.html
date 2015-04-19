@@ -1,0 +1,21 @@
+<#include "/common/_layout.html" />
+<@layout>
+<h1>Industry管理 ---&gt; 修改Industry
+</h1>
+<div class="form_box">
+	<form action="/industry/update" method="post">
+		<fieldset class="solid">
+			<legend>设置商业领域</legend>
+			<input type="hidden" name="industry.id" value="${(industry.id)!}" />
+			<div>
+				<label>商业领域</label>
+				<input type="text" name="industry.industry" value="${(industry.industry)!}" />${creator_nameMsg!}
+			</div>
+			<div>
+				<label>&nbsp;</label>
+				<input value="提交" type="submit">
+			</div>
+		</fieldset>
+	</form>
+</div>
+</@layout>

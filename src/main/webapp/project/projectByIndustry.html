@@ -1,0 +1,20 @@
+<#include "/common/_layout.html"/>
+<@layout>
+<h1>选择商业领域
+</h1>
+<div class="form_box">
+    <form action="/project/index/getPorjectByIndustry" method="post">
+        <fieldset class="solid">
+            <legend>Filter by 商业领域</legend>
+            <input type="hidden" name="project.id" value="${(project.id)!}" />
+            <#include "selectIndustry.html"/>
+            <div>
+                <label>&nbsp;</label>
+                <input value="提交" type="submit">
+            </div>
+        </fieldset>
+    </form>
+</div>
+
+
+</@layout>
