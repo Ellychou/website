@@ -120,8 +120,8 @@ public class ProjectController extends Controller {
     public void pdf() {
         Integer projectId = getParaToInt(0);
         String fileName = Project.dao.getFileName(projectId);
-        log.info(""+fileName);
         String path = Const.FILE_DIRECTORY;
+
         log.info("filepath : " + path+ fileName );
         //File file = new File("C:/Users/hzhou/Downloads/test.pdf");
         File file = new File(path+fileName);

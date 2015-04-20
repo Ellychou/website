@@ -1,0 +1,23 @@
+<#include "/common/_layout.html" />
+<@layout>
+<h1>创建投资者账户</h1>
+<div class="form_box">
+    <form action="/user/setIndustry" method="post">
+        <fieldset class="solid">
+            <legend>设置商业领域</legend>
+            <input type="hidden" name="user.id" value="${(user.id)!}" />
+            <div>
+                <select name="user_industry.industry_id" multiple>
+                    <#list industryList as x>
+                        <option value="${x.id}">${x.industry}</option>
+                    </#list>
+                </select>
+            </div>
+            <div>
+                <label>&nbsp;</label>
+                <input value="提交" type="submit">
+            </div>
+        </fieldset>
+    </form>
+</div>
+</@layout>

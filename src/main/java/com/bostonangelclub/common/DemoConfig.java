@@ -3,12 +3,14 @@ package com.bostonangelclub.common;
 import com.bostonangelclub.blog.Blog;
 import com.bostonangelclub.blog.BlogController;
 import com.bostonangelclub.controller.IndustryController;
+import com.bostonangelclub.controller.UserController;
 import com.bostonangelclub.index.IndexController;
 import com.bostonangelclub.kit.ActionExtentionHandler;
 import com.bostonangelclub.kit.Const;
 import com.bostonangelclub.model.Industry;
 import com.bostonangelclub.model.Project;
 import com.bostonangelclub.controller.ProjectController;
+import com.bostonangelclub.model.User;
 import com.jfinal.config.Constants;
 import com.jfinal.config.Handlers;
 import com.jfinal.config.Interceptors;
@@ -42,6 +44,7 @@ public class DemoConfig extends JFinalConfig {
 		me.add("/blog", BlogController.class);			// 第三个参数省略时默认与第一个参数值相同，在此即为 "/blog"
 		me.add("/project", ProjectController.class);
 		me.add("/industry", IndustryController.class);
+		me.add("/user", UserController.class);
 	}
 	
 	/**
@@ -58,6 +61,7 @@ public class DemoConfig extends JFinalConfig {
 		arp.addMapping("blog", Blog.class);	// 映射blog 表到 Blog模型
 		arp.addMapping("project",Project.class);
 		arp.addMapping("industry", Industry.class);
+		arp.addMapping("user",User.class);
 
 	}
 	
