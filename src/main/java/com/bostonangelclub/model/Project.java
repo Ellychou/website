@@ -19,8 +19,16 @@ public class Project extends Model<Project> {
      * Create new project
      */
     public List<Project> getProjectByIndustry(int industryId) {
-       return dao.find("select * from project p join project_industry i on p.id=i.project_id where i.industry_id=5");
+       return dao.find("select * from project p join project_industry i on p.id=i.project_id where i.industry_id=?",industryId);
     }
+    public String getFileName(int projectId) {
+        Project project = dao.findFirst("select * from project where id=?", projectId);
+        if (project != null) {
+            return project.getStr("file");
+        }
+        return null;
+    }
+
     public Page<Project> paginate(int pageNumber, int pageSize) {
         return paginate(pageNumber, pageSize, "select *", "from project order by id asc");
     }

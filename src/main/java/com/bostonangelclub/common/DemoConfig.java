@@ -4,6 +4,8 @@ import com.bostonangelclub.blog.Blog;
 import com.bostonangelclub.blog.BlogController;
 import com.bostonangelclub.controller.IndustryController;
 import com.bostonangelclub.index.IndexController;
+import com.bostonangelclub.kit.ActionExtentionHandler;
+import com.bostonangelclub.kit.Const;
 import com.bostonangelclub.model.Industry;
 import com.bostonangelclub.model.Project;
 import com.bostonangelclub.controller.ProjectController;
@@ -29,7 +31,7 @@ public class DemoConfig extends JFinalConfig {
 		// 加载少量必要配置，随后可用getProperty(...)获取值
 		loadPropertyFile("a_little_config.txt");
 		me.setDevMode(getPropertyToBoolean("devMode", false));
-		me.setUploadedFileSaveDirectory("saveDirectory");
+		me.setUploadedFileSaveDirectory(Const.FILE_DIRECTORY);
 	}
 	
 	/**
@@ -70,14 +72,14 @@ public class DemoConfig extends JFinalConfig {
 	 * 配置处理器
 	 */
 	public void configHandler(Handlers me) {
-		
+		me.add(new ActionExtentionHandler());
 	}
 	
 	/**
 	 * 建议使用 JFinal 手册推荐的方式启动项目
 	 * 运行此 main 方法可以启动项目，此main方法可以放置在任意的Class类定义中，不一定要放于此
 	 */
-	public static void main(
-			String[] args) {JFinal.start("src/main/webapp", 8080, "/", 5);
+	public static void main(String[] args) {
+		JFinal.start("src/main/webapp", 8080, "/", 5);
 	}
 }

@@ -6,6 +6,8 @@ package com.bostonangelclub.kit;
 public interface Const {
     String MAILGUN_USERNAME = "todo@mg.ellychou.com";
     String MAILGUN_PASSWORD = "zhoushanshan321";
+    String FILE_DIRECTORY = "C:/Users/files/";
+
 
 
 
