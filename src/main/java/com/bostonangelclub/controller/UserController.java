@@ -18,7 +18,9 @@ import java.util.Random;
  */
 public class UserController extends Controller {
     public void index() {
-        render("addInvestor.html");
+        setAttr("userPage", User.dao.paginate(getParaToInt(0, 1), 20));
+        render("user.html");
+
     }
 
     public void addInvestor() {
@@ -30,10 +32,10 @@ public class UserController extends Controller {
         user.set("password",randomPass).save();
         String email = getPara("user.email");
         sendPassword(email, randomPass);
-        Integer id = user.getInt("id");
-       // setAttr("user_id", id);
+        Long id = user.getLong("id");
+        setAttr("user_id", id);
         setAttr("industryList", Industry.dao.getList());
-        render("/user/setUserIndustry");
+        render("setUserIndustry.html");
     }
     public void setUserIndustry() {
         setAttr("industryList", Industry.dao.getList());
@@ -42,7 +44,7 @@ public class UserController extends Controller {
     }
     public void setIndustry() {
         Integer[] industryIds = getParaValuesToInt("user_industry.industry_id");
-        Integer userId = getParaToInt("user.id");
+        Integer userId = getParaToInt("user_id");
         for (Integer id : industryIds) {
             Record userIndustry = new Record();
             userIndustry.set("user_id", userId).set("industry_id", id);
@@ -55,10 +57,12 @@ public class UserController extends Controller {
         String content = "Your Boston Angel Club account has been created, please log in bostonangelclub.com with your eamil" +
                 email + " and your password " + password + " to reset your password.";
         SendMailKit.send(email,content);
-
-
     }
 
+    public void delete() {
+        User.dao.deleteById(getParaToInt());
+        redirect("/user");
+    }
 
 
 }
