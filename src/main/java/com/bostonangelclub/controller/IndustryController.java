@@ -32,4 +32,5 @@ public class IndustryController extends Controller {
     }
 
 
+
 }

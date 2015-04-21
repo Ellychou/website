@@ -9,6 +9,8 @@ import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
 import org.apache.commons.lang3.RandomStringUtils;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -39,8 +41,6 @@ public class UserController extends Controller {
     }
     public void setUserIndustry() {
         setAttr("industryList", Industry.dao.getList());
-
-
     }
     public void setIndustry() {
         Integer[] industryIds = getParaValuesToInt("user_industry.industry_id");
@@ -56,12 +56,29 @@ public class UserController extends Controller {
     public void sendPassword(String email, String password) {
         String content = "Your Boston Angel Club account has been created, please log in bostonangelclub.com with your eamil" +
                 email + " and your password " + password + " to reset your password.";
-        SendMailKit.send(email,content);
+        SendMailKit.send(email, content);
     }
 
-    public void delete() {
-        User.dao.deleteById(getParaToInt());
-        redirect("/user");
+    public void freeze() {
+        User user = User.dao.findById(getParaToInt());
+        user.set("frozen",1).update();
+        renderText("Freeze account successfully!");
+    }
+
+    public void viewIndustry() {
+        Long userId = getParaToLong();
+        //List<String> industries = new ArrayList<String>();
+        //List<Record> userIndustries =  Db.find("select * from user_industry where user_id = ?",userId);
+        //for (Record userIndustry : userIndustries) {
+         //   Long industryId = userIndustry.getLong("industry_id");
+         //   String industryName = Industry.dao.findById(industryId).getStr("industry");
+         //   industries.add(industryName);
+       // }
+        List<Record> industries = Db.find("select i.industry \n" +
+                "from industry i join \n" +
+                "( select industry_id from user_industry\n" +
+                "where user_id = ?) as u on i.id = u.industry_id",userId);
+        setAttr("industryList",industries);
     }
 
 
