@@ -1,0 +1,26 @@
+<#include "/common/_layout.html" />
+<@layout>
+<h1>Login
+</h1>
+<div class="form_box">
+    <form action="/user/logincheck" method="post">
+        <fieldset class="solid">
+            <legend>Login</legend>
+
+            <div>
+                <label>邮箱</label>
+                <input type="text" name="email" value="" />${titleMsg!}
+            </div>
+
+            <div>
+                <label>密码</label>
+                <input type="password" name="password" value="" />${titleMsg!}
+            </div>
+            <div>
+                <label>&nbsp;</label>
+                <input value="提交" type="submit">
+            </div>
+        </fieldset>
+    </form>
+</div>
+</@layout>

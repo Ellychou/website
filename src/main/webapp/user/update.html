@@ -1,0 +1,31 @@
+<#include "/common/_layout.html" />
+<@layout>
+<h1>Update your account</h1>
+<div class="form_box">
+    <form action="/user/updateUsername" method="post">
+        <fieldset class="solid">
+            <legend>update user name</legend>
+            <input type="text" name="user.id" value="${(user.id)!}" />
+            <div>
+                <label>用户名</label>
+                <input type="text" name="user.name" value="${(user.name)!}" />${titleMsg!}
+                <label>&nbsp;</label>
+                <input value="提交" type="submit"/>
+            </div>
+        </fieldset>
+    </form>
+    <form action="/user/updatePassword" method="post">
+        <fieldset class="solid">
+            <legend>update password</legend>
+            <div>
+                <label>密码</label>
+                <input type="password" name="user.password" value="${(user.password)!}" />${titleMsg!}
+                <label>确认密码</label>
+                <input type="password" name="user.password" value="${(user.password)!}" />${titleMsg!}
+                <label>&nbsp;</label>
+                <input value="提交" type="submit"/>
+            </div>
+        </fieldset>
+    </form>
+</div>
+</@layout>

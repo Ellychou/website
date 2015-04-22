@@ -33,7 +33,12 @@ public class UserController extends Controller {
         User user =  getModel(User.class);
         user.set("password",randomPass).save();
         String email = getPara("user.email");
-        sendPassword(email, randomPass);
+        User userexist = User.dao.findFirst("select email from user where email = ?",email);
+        if (userexist != null) {
+            renderText("An account with this email has aready been created, please create account with another email");
+            return;
+        }
+       // sendPassword(email, randomPass);
         Long id = user.getLong("id");
         setAttr("user_id", id);
         setAttr("industryList", Industry.dao.getList());
@@ -77,9 +82,46 @@ public class UserController extends Controller {
         List<Record> industries = Db.find("select i.industry \n" +
                 "from industry i join \n" +
                 "( select industry_id from user_industry\n" +
-                "where user_id = ?) as u on i.id = u.industry_id",userId);
-        setAttr("industryList",industries);
+                "where user_id = ?) as u on i.id = u.industry_id", userId);
+        setAttr("industryList", industries);
     }
+
+    public void login() {
+
+    }
+
+    public void logincheck() {
+        String email = getPara("email");
+        String password = getPara("password");
+        User user = User.dao.findFirst("select * from user where email = ?", email);
+        if (user == null) {
+            renderText("Can not find this email");
+            return;
+        }
+        Integer frozen = user.getInt("frozen");
+        if (frozen == 1) {
+            renderText("Your account has been frozen, please contact administrator");
+            return;
+        }
+        String savedpw = user.getStr("password");
+        if (password.equals(savedpw)){
+            Long userId = user.getLong("id");
+            setAttr("user.id",userId);
+            redirect("/user/update");
+        }else{
+            renderText("Password is incorrect");
+        }
+    }
+
+    public void update() {
+
+    }
+    public void updateUsername() {
+        Long userId = getParaToLong("userId");
+        User user = User.dao.findById(userId);
+        user.set("name",getPara("user.name")).update();
+    }
+
 
 
 }

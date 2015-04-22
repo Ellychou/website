@@ -8,4 +8,9 @@ import com.jfinal.core.Controller;
  * @since 2015/4/21.
  */
 public class LoginController extends Controller {
+
+    public void index() {
+
+    }
+
 }
