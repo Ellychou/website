@@ -6,7 +6,11 @@
 	<form action="/project/setIndustry" method="post">
 		<fieldset class="solid">
 			<legend>设置商业领域</legend>
-			<input type="hidden" name="project.id" value="${(project.id)!}" />
+			<div>
+				<label>&nbsp;</label>
+				<span >${(msg)!}</span>
+			</div>
+			<input type="hidden" name="project.id" value="${(project_id)!}" />
 			<#include "selectIndustry.html"/>
 			<div>
 				<label>&nbsp;</label>

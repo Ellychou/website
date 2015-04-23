@@ -59,7 +59,7 @@ public class UserController extends Controller {
     }
 
     public void sendPassword(String email, String password) {
-        String content = "Your Boston Angel Club account has been created, please log in bostonangelclub.com with your eamil" +
+        String content = "Please log in bostonangelclub.com with your eamil" +
                 email + " and your password " + password + " to reset your password.";
         SendMailKit.send(email, content);
     }
@@ -96,7 +96,7 @@ public class UserController extends Controller {
         String password = getPara("user.password");
         String url = "login.html";
 
-        User user = User.dao.findFirst("select * from user where email = ?", email);
+        User user = User.dao.findByEmail(email);
         if (user == null) {
             response("Can not find this email", url);
             return;
@@ -118,6 +118,7 @@ public class UserController extends Controller {
     public void update() {
 
     }
+
   //  @Before(UserValidator.class)
     public void updateUsername() {
         User user = getModel(User.class);
@@ -138,8 +139,26 @@ public class UserController extends Controller {
     }
 
     public void response(String msg, String url) {
-        setAttr("msg",msg);
+        setAttr("msg", msg);
         render(url);
+    }
+
+    public void forgetPassword() {
+
+    }
+    public void setNewPassword() {
+        String email = getPara("user.email");
+        User user =  User.dao.findByEmail(email);
+        if (user == null) {
+            response("Can not find this email","forgetPassword.html");
+            return;
+        }
+        String randomPass = RandomStringUtils.randomAlphanumeric(12);
+        user.set("password",randomPass).update();
+
+        sendPassword(email, randomPass);
+        response("New password has already been sent to your email, please check your email","forgetPassword.html");
+
     }
 
 

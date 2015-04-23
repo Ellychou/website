@@ -48,7 +48,12 @@ public class ProjectController extends Controller {
     }
 
     public void edit() {
-        setAttr("project", Project.dao.findById(getParaToInt()));
+        Integer projectId = getParaToInt();
+        if (projectId == null) {
+            response("Can not find this project","project.html");
+            return;
+        }
+        setAttr("project_id", projectId);
         setAttr("industryList", Industry.dao.getList());
        // setAttr("industryName", Industry.dao.findById(getPara("project_industry")));
     }
@@ -61,7 +66,7 @@ public class ProjectController extends Controller {
             projectIndustry.set("project_id", projectId).set("industry_id", id);
             Db.save("project_industry", projectIndustry);
         }
-        renderText("Set industry successfully");
+        response("Set industry successfully", "project.html");
     }
 
     public void update() {
@@ -128,7 +133,10 @@ public class ProjectController extends Controller {
         renderFile(file);
 
     }
-
+    public void response(String msg, String url) {
+        setAttr("msg", msg);
+        render(url);
+    }
 }
 
 

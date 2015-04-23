@@ -3,7 +3,6 @@ package com.bostonangelclub.common;
 import com.bostonangelclub.blog.Blog;
 import com.bostonangelclub.blog.BlogController;
 import com.bostonangelclub.controller.IndustryController;
-import com.bostonangelclub.controller.LoginController;
 import com.bostonangelclub.controller.UserController;
 import com.bostonangelclub.index.IndexController;
 import com.bostonangelclub.kit.ActionExtentionHandler;
@@ -46,7 +45,6 @@ public class DemoConfig extends JFinalConfig {
 		me.add("/project", ProjectController.class);
 		me.add("/industry", IndustryController.class);
 		me.add("/user", UserController.class);
-		me.add("/login", LoginController.class);
 	}
 	
 	/**
