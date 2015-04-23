@@ -2,7 +2,6 @@ package com.bostonangelclub.controller;
 
 import com.bostonangelclub.kit.SendMailKit;
 import com.bostonangelclub.model.Industry;
-import com.bostonangelclub.model.Project;
 import com.bostonangelclub.model.User;
 import com.bostonangelclub.validator.UserValidator;
 import com.jfinal.aop.Before;
@@ -11,9 +10,7 @@ import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
 import org.apache.commons.lang3.RandomStringUtils;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * @author Shan Zhou
@@ -32,15 +29,15 @@ public class UserController extends Controller {
     }
     @Before(UserValidator.class)
     public void save() {
-        String randomPass = RandomStringUtils.randomAlphanumeric(12);
-        User user =  getModel(User.class);
-        user.set("password",randomPass).save();
         String email = getPara("user.email");
         User userexist = User.dao.findFirst("select email from user where email = ?",email);
         if (userexist != null) {
-            renderText("An account with this email has aready been created, please create account with another email");
+            response("An account with this email has already been created, please create account with another email", "addInvestor.html");
             return;
         }
+        String randomPass = RandomStringUtils.randomAlphanumeric(12);
+        User user =  getModel(User.class);
+        user.set("password",randomPass).save();
        // sendPassword(email, randomPass);
         Long id = user.getLong("id");
         setAttr("user_id", id);
@@ -70,7 +67,8 @@ public class UserController extends Controller {
     public void freeze() {
         User user = User.dao.findById(getParaToInt());
         user.set("frozen",1).update();
-        renderText("Freeze account successfully!");
+        setAttr("userPage", User.dao.paginate(getParaToInt(0, 1), 20));
+        response("Freeze account successfully!", "user.html");
     }
 
     public void viewIndustry() {
@@ -100,12 +98,12 @@ public class UserController extends Controller {
 
         User user = User.dao.findFirst("select * from user where email = ?", email);
         if (user == null) {
-            errorMsg("Can not find this email",url);
+            response("Can not find this email", url);
             return;
         }
         Integer frozen = user.getInt("frozen");
         if (frozen == 1) {
-            errorMsg("Your account has been frozen, please contact administrator",url);
+            response("Your account has been frozen, please contact administrator", url);
             return;
         }
         String savedpw = user.getStr("password");
@@ -113,31 +111,33 @@ public class UserController extends Controller {
             setAttr("user",user);
             render("update.html");
         }else{
-            errorMsg("Password is incorrect", url);
+            response("Password is incorrect", url);
         }
     }
 
     public void update() {
 
     }
-    @Before(UserValidator.class)
+  //  @Before(UserValidator.class)
     public void updateUsername() {
         User user = getModel(User.class);
         user.update();
-        forwardAction("/user");
+        response("Update user name successfully","update.html");
+        //forwardAction("/user");
     }
-    @Before(UserValidator.class)
+  //  @Before(UserValidator.class)
     public void updatePassword() {
         if(!getPara("password2").equals(getPara("user.password"))) {
-            renderText("Your two passwords are not the same");
+            response("Your two passwords are not the same", "update.html");
             return;
         }
         User user = getModel(User.class);
         user.set("password", getPara("user.password")).update();
-        forwardAction("/user");
+        response("Update password successfully","update.html");
+       // forwardAction("/user");
     }
 
-    public void errorMsg(String msg, String url) {
+    public void response(String msg, String url) {
         setAttr("msg",msg);
         render(url);
     }

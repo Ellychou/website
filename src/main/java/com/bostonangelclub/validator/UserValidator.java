@@ -11,8 +11,9 @@ import com.jfinal.validate.Validator;
 public class UserValidator extends Validator {
 	
 	protected void validate(Controller controller) {
+
 		validateEmail("user.email", "emailMsg", "Email format Error");
-		validateRequiredString("user.password", "passwordMsg", "Password cannot be null");
+		//validateRequiredString("user.password", "passwordMsg", "Password cannot be null");
 		//validateRegex("user.name", "[a-zA-Z0-9_]{2,8}", "usernameMsg", "The length of user name should be 2~8, and it can conly contain numbers, alphabets, and _.");
 	}
 	

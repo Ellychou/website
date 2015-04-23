@@ -1,6 +1,10 @@
 <#include "/common/_layout.html" />
 <@layout>
 <h1>Update your account</h1>
+<div>
+    <label>&nbsp;</label>
+    <span >${(msg)!}</span>
+</div>
 <div class="form_box">
     <form action="/user/updateUsername" method="post">
         <fieldset class="solid">
@@ -19,7 +23,6 @@
             <legend>update password</legend>
             <input type="hidden" name="user.id" value="${(user.id)!}" />
             <div>
-                <input type="text" name="msg" value="${(msg)!}"/>
                 <label>新密码</label>
                 <input type="password" name="user.password" value="" required />${passwordMsg!}
                 <label>确认密码</label>
