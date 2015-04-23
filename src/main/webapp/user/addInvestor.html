@@ -6,10 +6,10 @@
 
 		<fieldset class="solid">
 			<legend>创建账户</legend>
-			<input type="hidden" name="user.id" value="${(user.id)!}" />
+			<input type="hidden" name="user.id" value="${(user.id)!}"  />
 			<div>
 				<label>邮箱</label>
-				<input type="email" name="user.email" value="${(user.email)!}" />${emailMsg!}
+				<input type="email" name="user.email" value="${(user.email)!}" required autofocus />${emailMsg!}
 			</div>
 
 			<div>

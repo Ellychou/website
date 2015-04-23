@@ -6,15 +6,19 @@
     <form action="/user/logincheck" method="post">
         <fieldset class="solid">
             <legend>Login</legend>
+            <div>
+                <label>&nbsp;</label>
+                <span >${(msg)!}</span>
+            </div>
 
             <div>
                 <label>邮箱</label>
-                <input type="text" name="email" value="" />${titleMsg!}
+                <input type="email" name="user.email" value="" required />${emailMsg!}
             </div>
 
             <div>
                 <label>密码</label>
-                <input type="password" name="password" value="" />${titleMsg!}
+                <input type="password" name="user.password" value="" required />${passwordMsg!}
             </div>
             <div>
                 <label>&nbsp;</label>

@@ -50,7 +50,7 @@ public class ProjectController extends Controller {
     public void edit() {
         setAttr("project", Project.dao.findById(getParaToInt()));
         setAttr("industryList", Industry.dao.getList());
-        setAttr("industryName", Industry.dao.findById(getPara("project_industry")));
+       // setAttr("industryName", Industry.dao.findById(getPara("project_industry")));
     }
 
     public void setIndustry() {

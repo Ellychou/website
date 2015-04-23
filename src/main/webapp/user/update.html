@@ -5,10 +5,10 @@
     <form action="/user/updateUsername" method="post">
         <fieldset class="solid">
             <legend>update user name</legend>
-            <input type="text" name="user.id" value="${(user.id)!}" />
+            <input type="hidden" name="user.id" value="${(user.id)!}" />
             <div>
                 <label>用户名</label>
-                <input type="text" name="user.name" value="${(user.name)!}" />${titleMsg!}
+                <input type="text" name="user.name" value="${(user.name)!}" required autofocus />${usernameMsg!}
                 <label>&nbsp;</label>
                 <input value="提交" type="submit"/>
             </div>
@@ -17,11 +17,13 @@
     <form action="/user/updatePassword" method="post">
         <fieldset class="solid">
             <legend>update password</legend>
+            <input type="hidden" name="user.id" value="${(user.id)!}" />
             <div>
-                <label>密码</label>
-                <input type="password" name="user.password" value="${(user.password)!}" />${titleMsg!}
+                <input type="text" name="msg" value="${(msg)!}"/>
+                <label>新密码</label>
+                <input type="password" name="user.password" value="" required />${passwordMsg!}
                 <label>确认密码</label>
-                <input type="password" name="user.password" value="${(user.password)!}" />${titleMsg!}
+                <input type="password" name="password2" value="" required />${passwordMsg!}
                 <label>&nbsp;</label>
                 <input value="提交" type="submit"/>
             </div>

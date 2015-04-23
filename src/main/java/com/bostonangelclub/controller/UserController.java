@@ -4,6 +4,8 @@ import com.bostonangelclub.kit.SendMailKit;
 import com.bostonangelclub.model.Industry;
 import com.bostonangelclub.model.Project;
 import com.bostonangelclub.model.User;
+import com.bostonangelclub.validator.UserValidator;
+import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
@@ -28,6 +30,7 @@ public class UserController extends Controller {
     public void addInvestor() {
 
     }
+    @Before(UserValidator.class)
     public void save() {
         String randomPass = RandomStringUtils.randomAlphanumeric(12);
         User user =  getModel(User.class);
@@ -89,37 +92,54 @@ public class UserController extends Controller {
     public void login() {
 
     }
-
+    @Before(UserValidator.class)
     public void logincheck() {
-        String email = getPara("email");
-        String password = getPara("password");
+        String email = getPara("user.email");
+        String password = getPara("user.password");
+        String url = "login.html";
+
         User user = User.dao.findFirst("select * from user where email = ?", email);
         if (user == null) {
-            renderText("Can not find this email");
+            errorMsg("Can not find this email",url);
             return;
         }
         Integer frozen = user.getInt("frozen");
         if (frozen == 1) {
-            renderText("Your account has been frozen, please contact administrator");
+            errorMsg("Your account has been frozen, please contact administrator",url);
             return;
         }
         String savedpw = user.getStr("password");
         if (password.equals(savedpw)){
-            Long userId = user.getLong("id");
-            setAttr("user.id",userId);
-            redirect("/user/update");
+            setAttr("user",user);
+            render("update.html");
         }else{
-            renderText("Password is incorrect");
+            errorMsg("Password is incorrect", url);
         }
     }
 
     public void update() {
 
     }
+    @Before(UserValidator.class)
     public void updateUsername() {
-        Long userId = getParaToLong("userId");
-        User user = User.dao.findById(userId);
-        user.set("name",getPara("user.name")).update();
+        User user = getModel(User.class);
+        user.update();
+        forwardAction("/user");
+    }
+    @Before(UserValidator.class)
+    public void updatePassword() {
+        if(!getPara("password2").equals(getPara("user.password"))) {
+            renderText("Your two passwords are not the same");
+            return;
+        }
+        User user = getModel(User.class);
+        user.set("password", getPara("user.password")).update();
+        forwardAction("/user");
+    }
+
+    public void errorMsg(String msg, String url) {
+        setAttr("msg",msg);
+        render(url);
     }
 
 

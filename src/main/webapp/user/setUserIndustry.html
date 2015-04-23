@@ -9,7 +9,9 @@
             <div>
                 <select name="user_industry.industry_id" multiple>
                     <#list industryList as x>
-                        <option value="${x.id}">${x.industry}</option>
+                        <datalist>
+                            <option value="${x.id}">${x.industry}</option>
+                        </datalist>
                     </#list>
                 </select>
             </div>
