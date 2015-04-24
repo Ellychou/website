@@ -1,10 +1,15 @@
 package com.bostonangelclub.controller;
 
+import com.bostonangelclub.interceptor.AdminInterceptor;
+import com.bostonangelclub.interceptor.AuthInterceptor;
 import com.bostonangelclub.kit.SendMailKit;
 import com.bostonangelclub.model.Industry;
 import com.bostonangelclub.model.User;
 import com.bostonangelclub.validator.UserValidator;
 import com.jfinal.aop.Before;
+import com.jfinal.aop.ClearInterceptor;
+import com.jfinal.aop.ClearLayer;
+import com.jfinal.core.ActionKey;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
@@ -17,17 +22,21 @@ import java.util.List;
  * @version 1.0.1
  * @since 2015/4/19.
  */
+
 public class UserController extends Controller {
+    @Before(AuthInterceptor.class)
     public void index() {
         setAttr("userPage", User.dao.paginate(getParaToInt(0, 1), 20));
         render("user.html");
 
     }
 
+    @Before(AdminInterceptor.class)
     public void addInvestor() {
 
     }
-    @Before(UserValidator.class)
+
+    @Before({AdminInterceptor.class,UserValidator.class})
     public void save() {
         String email = getPara("user.email");
         User userexist = User.dao.findFirst("select email from user where email = ?",email);
@@ -44,9 +53,12 @@ public class UserController extends Controller {
         setAttr("industryList", Industry.dao.getList());
         render("setUserIndustry.html");
     }
+
+    @Before(AdminInterceptor.class)
     public void setUserIndustry() {
         setAttr("industryList", Industry.dao.getList());
     }
+    @Before(AdminInterceptor.class)
     public void setIndustry() {
         Integer[] industryIds = getParaValuesToInt("user_industry.industry_id");
         Integer userId = getParaToInt("user_id");
@@ -64,6 +76,7 @@ public class UserController extends Controller {
         SendMailKit.send(email, content);
     }
 
+    @Before(AdminInterceptor.class)
     public void freeze() {
         User user = User.dao.findById(getParaToInt());
         user.set("frozen",1).update();
@@ -71,6 +84,7 @@ public class UserController extends Controller {
         response("Freeze account successfully!", "user.html");
     }
 
+    @Before(AdminInterceptor.class)
     public void viewIndustry() {
         Long userId = getParaToLong();
         //List<String> industries = new ArrayList<String>();
@@ -86,10 +100,12 @@ public class UserController extends Controller {
                 "where user_id = ?) as u on i.id = u.industry_id", userId);
         setAttr("industryList", industries);
     }
-
+    @ActionKey("/login")
     public void login() {
-
+        setAttr("msg", getSessionAttr("msg"));
+        removeSessionAttr("msg");
     }
+
     @Before(UserValidator.class)
     public void logincheck() {
         String email = getPara("user.email");
@@ -117,6 +133,7 @@ public class UserController extends Controller {
         render("update.html");
     }
 
+    @Before(AuthInterceptor.class)
     public void logout(){
         removeSessionAttr("user");
         removeSessionAttr("userID");
@@ -124,11 +141,13 @@ public class UserController extends Controller {
         redirect("/");
     }
 
+    @Before(AuthInterceptor.class)
     public void update() {
 
     }
 
-  //  @Before(UserValidator.class)
+
+    @Before(AuthInterceptor.class)
     public void updateUsername() {
         User user = getModel(User.class);
         user.update();
@@ -136,12 +155,14 @@ public class UserController extends Controller {
         //forwardAction("/user");
     }
   //  @Before(UserValidator.class)
+   @Before(AuthInterceptor.class)
     public void updatePassword() {
         if(!getPara("password2").equals(getPara("user.password"))) {
             response("Your two passwords are not the same", "update.html");
             return;
         }
-        User user = getModel(User.class);
+        Long userId = getSessionAttr("userId");
+        User user = User.dao.findById(userId);
         user.set("password", getPara("user.password")).update();
         response("Update password successfully","update.html");
        // forwardAction("/user");

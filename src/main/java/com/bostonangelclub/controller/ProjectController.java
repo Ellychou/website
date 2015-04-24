@@ -1,6 +1,7 @@
 
 package com.bostonangelclub.controller;
 
+import com.bostonangelclub.interceptor.AdminInterceptor;
 import com.bostonangelclub.interceptor.AuthInterceptor;
 import com.bostonangelclub.kit.Const;
 import com.bostonangelclub.kit.SendMailKit;
@@ -23,7 +24,7 @@ import java.util.List;
  * @version 1.0.1
  * @since 2015/4/15.
  */
-@Before(AuthInterceptor.class)
+
 public class ProjectController extends Controller {
     private static final Logger log = Logger.getLogger(ProjectController.class);
 
@@ -49,7 +50,7 @@ public class ProjectController extends Controller {
         sendEmail();
         redirect("/project");
     }
-
+    @Before(AdminInterceptor.class)
     public void edit() {
         Integer projectId = getParaToInt();
         if (projectId == null) {
@@ -61,6 +62,7 @@ public class ProjectController extends Controller {
        // setAttr("industryName", Industry.dao.findById(getPara("project_industry")));
     }
 
+    @Before(AdminInterceptor.class)
     public void setIndustry() {
         Integer[] industryIds = getParaValuesToInt("project_industry.industry_id");
         Integer projectId = getParaToInt("project.id");
@@ -72,11 +74,12 @@ public class ProjectController extends Controller {
         response("Set industry successfully", "project.html");
     }
 
+    @Before(AdminInterceptor.class)
     public void update() {
         getModel(Project.class).update();
         redirect("/project");
     }
-
+    @Before(AdminInterceptor.class)
     public void delete() {
         Project.dao.deleteById(getParaToInt());
         redirect("/project");

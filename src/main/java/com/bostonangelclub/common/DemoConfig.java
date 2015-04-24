@@ -5,6 +5,7 @@ import com.bostonangelclub.blog.BlogController;
 import com.bostonangelclub.controller.IndustryController;
 import com.bostonangelclub.controller.UserController;
 import com.bostonangelclub.index.IndexController;
+import com.bostonangelclub.interceptor.AuthInterceptor;
 import com.bostonangelclub.kit.ActionExtentionHandler;
 import com.bostonangelclub.kit.Const;
 import com.bostonangelclub.model.Industry;
@@ -69,7 +70,7 @@ public class DemoConfig extends JFinalConfig {
 	 * 配置全局拦截器
 	 */
 	public void configInterceptor(Interceptors me) {
-		
+
 	}
 	
 	/**
