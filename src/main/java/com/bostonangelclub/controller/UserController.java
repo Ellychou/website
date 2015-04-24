@@ -107,12 +107,21 @@ public class UserController extends Controller {
             return;
         }
         String savedpw = user.getStr("password");
-        if (password.equals(savedpw)){
-            setAttr("user",user);
-            render("update.html");
-        }else{
+        if (!password.equals(savedpw)) {
             response("Password is incorrect", url);
         }
+        setSessionAttr("user",user);
+        setSessionAttr("userId",user.get("id"));
+        setSessionAttr("roleId",user.get("role_id"));
+        setAttr("user",user);
+        render("update.html");
+    }
+
+    public void logout(){
+        removeSessionAttr("user");
+        removeSessionAttr("userID");
+        removeSessionAttr("roleID");
+        redirect("/");
     }
 
     public void update() {

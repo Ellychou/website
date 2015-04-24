@@ -1,11 +1,13 @@
 
 package com.bostonangelclub.controller;
 
+import com.bostonangelclub.interceptor.AuthInterceptor;
 import com.bostonangelclub.kit.Const;
 import com.bostonangelclub.kit.SendMailKit;
 import com.bostonangelclub.model.Industry;
 import com.bostonangelclub.model.Project;
 import com.google.common.io.Files;
+import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
@@ -21,6 +23,7 @@ import java.util.List;
  * @version 1.0.1
  * @since 2015/4/15.
  */
+@Before(AuthInterceptor.class)
 public class ProjectController extends Controller {
     private static final Logger log = Logger.getLogger(ProjectController.class);
 
@@ -131,7 +134,6 @@ public class ProjectController extends Controller {
         //File file = new File("C:/Users/hzhou/Downloads/test.pdf");
         File file = new File(path+fileName);
         renderFile(file);
-
     }
     public void response(String msg, String url) {
         setAttr("msg", msg);
